@@ -100,5 +100,4 @@ struct GameConstants {
     static let charHeight:CGFloat   = 25
     static let charMargin:CGFloat   = 5
     static let charWidth:CGFloat    = 25
-    static let monsterCodes:[NSString] = ["\\","L","Q"]
 }

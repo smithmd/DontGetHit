@@ -17,6 +17,9 @@ var _monsterLabelArray:[SKLabelNode] = []
 
 var _constants = GameConstants()
 
+var scoreCounter:Int = 0
+var gameOver:Bool = false
+
 class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -36,57 +39,65 @@ class GameScene: SKScene {
     
     override func keyDown(theEvent: NSEvent) {
         if !_lblGameTitle.hidden {
-//            _lblGameTitle.hidden = true
+            _lblGameTitle.hidden = true
         }
        
-        switch Int(theEvent.keyCode) {
-        case 49:
-            //space
-            triggerGameEvents()
-            break
-        case 123:
-            // left
-            triggerGameEvents()
-            _charLabel.position.x = _charLabel.position.x - GameConstants.charMargin - GameConstants.charWidth
-            break
-        case 124:
-            // right
-            triggerGameEvents()
-            _charLabel.position.x = _charLabel.position.x + GameConstants.charMargin + GameConstants.charWidth
-            break
-        case 125:
-            // down
-            triggerGameEvents()
-            _charLabel.position.y = _charLabel.position.y - GameConstants.charMargin - GameConstants.charHeight
-            break
-        case 126:
-            // up
-            triggerGameEvents()
-            _charLabel.position.y = _charLabel.position.y + GameConstants.charMargin + GameConstants.charHeight
-            break
-        default:
-            _lblGameTitle.text = "keycode = \(theEvent.keyCode)"
-            break
+        if !gameOver {
+            switch Int(theEvent.keyCode) {
+            case 49:
+                //space
+                triggerGameEvents()
+                break
+            case 123:
+                // left
+                triggerGameEvents()
+                _charLabel.position.x = _charLabel.position.x - GameConstants.charMargin - GameConstants.charWidth
+                break
+            case 124:
+                // right
+                triggerGameEvents()
+                _charLabel.position.x = _charLabel.position.x + GameConstants.charMargin + GameConstants.charWidth
+                break
+            case 125:
+                // down
+                triggerGameEvents()
+                _charLabel.position.y = _charLabel.position.y - GameConstants.charMargin - GameConstants.charHeight
+                break
+            case 126:
+                // up
+                triggerGameEvents()
+                _charLabel.position.y = _charLabel.position.y + GameConstants.charMargin + GameConstants.charHeight
+                break
+            default:
+                // _lblGameTitle.text = "keycode = \(theEvent.keyCode)"
+                break
+            }
+        } else {
+            _lblGameTitle.text = "You Got Hit! Your score was \(scoreCounter)"
+            _lblGameTitle.hidden = false
         }
     }
     
     func triggerGameEvents() {
         moveMonsters()
         spawnMonster()
+        checkForCollisions()
+        incrementScore()
     }
     
     func spawnMonster() {
-        let monster:Monster = Monster(type:Int(arc4random_uniform(3)), frame: self.frame)
+        let monster:Monster = getRandomMonster()
+        
         _monsterArray.append(monster)
         
         let lbl:SKLabelNode = SKLabelNode(fontNamed: "Courier")
         lbl.fontSize = GameConstants.charHeight
-        lbl.text = monster.type
+        lbl.text = monster.label
         lbl.position = monster.position
         lbl.fontColor = NSColor(
             red: GameFunctions.getRandomCGFloat(),
             green: GameFunctions.getRandomCGFloat(),
-            blue: 1,
+            blue: GameFunctions.getRandomCGFloat(),
             alpha: 1)
         lbl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         lbl.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
@@ -97,10 +108,54 @@ class GameScene: SKScene {
         println()
     }
     
+    func getRandomMonster() -> Monster {
+        let rand = Int(arc4random_uniform(3))
+        
+        if rand == 0 {
+            return L(frame: self.frame) as Monster
+        } else if rand == 1 {
+            return Slash(frame: self.frame) as Monster
+        } else {
+            return Q(frame: self.frame) as Monster
+        }
+    }
+    
     func moveMonsters() {
         for (index:Int, m:Monster) in enumerate(_monsterArray) {
-            m.changePosition()
+            m.changePosition(_charLabel.position)
             _monsterLabelArray[index].position = m.position
+        }
+    }
+    
+    func checkForCollisions() {
+        
+        for (i:Int, m:Monster) in enumerate(_monsterArray) {
+            if _charLabel.position == m.position {
+                gameOver = true
+            }
+            for (j:Int, n:Monster) in enumerate(_monsterArray) {
+                // check to make sure monsters are different objects
+                if m.uuid.UUIDString != n.uuid.UUIDString
+                    && m.position == n.position
+                {
+                    if m.precedence > n.precedence {
+                        println("\tMonsters collide… Removing a \(n.label)")
+                        _monsterArray.removeAtIndex(j)
+                    } else {
+                        println("\tMonsters collide… Removing a \(m.label)")
+                        _monsterArray.removeAtIndex(i)
+                        break
+                    }
+                }
+            }
+        }
+        println("\tMonsters remaining: \(_monsterArray.count)")
+    }
+    func incrementScore() {
+        if !gameOver {
+            ++scoreCounter
+        } else {
+            println("** Score: \(scoreCounter)");
         }
     }
     

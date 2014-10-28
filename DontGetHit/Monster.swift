@@ -10,13 +10,18 @@ import Foundation
 import SpriteKit
 
 class Monster {
-    var type:NSString = ""
     var position:CGPoint
     var frame:CGRect
+    var precedence:Int
     
-    init(type: Int, frame:CGRect) {
+    var label:NSString
+    
+    var uuid:NSUUID = NSUUID()
+    
+    init(frame:CGRect) {
         self.frame = frame
-        self.type = GameConstants.monsterCodes[type]
+        self.label = ""
+        
         let maxX = CGRectGetMaxX(frame)
         let maxY = CGRectGetMaxY(frame)
         let spawnOnXAxis = Int(arc4random_uniform(2))
@@ -32,30 +37,11 @@ class Monster {
         }
         self.position = GameFunctions.getPointInGrid(CGPoint(x: x, y: y), f:frame)
         
-        println("Spawned new \(self.type) at (\(self.position.x), \(self.position.y))")
+        precedence = -1
     }
     
-    func changePosition() {
-        switch self.type {
-        case GameConstants.monsterCodes[0]:
-            print("Move \\: ")
-            moveSlash()
-            break
-            
-        case GameConstants.monsterCodes[1]:
-            print("Move L: ")
-            moveL()
-            break
-            
-        case GameConstants.monsterCodes[2]:
-            print("Move Q: ")
-            moveQ()
-            break
-            
-        default:
-            print("Default: ")
-            break
-        }
+    func changePosition(playerPosition:CGPoint) {
+        fatalError("Monster has not overridden this function")
     }
     
     // false == left, true == right
@@ -74,93 +60,5 @@ class Monster {
     
     func addToYPosition(move:CGFloat -> CGFloat, y:CGFloat) -> CGFloat {
         return move(y)
-    }
-    
-    func moveSlash() {
-        var newX:CGFloat, newY:CGFloat
-        if doMoveRight() {
-            newX = addToXPosition(
-                {(x:CGFloat) -> CGFloat in return x + (GameConstants.charWidth + GameConstants.charMargin) * 1},
-                x: self.position.x)
-        } else {
-            newX = addToXPosition(
-                {(x:CGFloat) -> CGFloat in return x - (GameConstants.charWidth + GameConstants.charMargin) * 1},
-                x: self.position.x)
-        }
-        
-        if doMoveUp() {
-            newY = addToYPosition(
-                {(y:CGFloat) -> CGFloat in return y + (GameConstants.charHeight + GameConstants.charMargin) * 1 },
-                y: self.position.y)
-            
-            
-        } else {
-            newY = addToYPosition(
-                {(y:CGFloat) -> CGFloat in return y - (GameConstants.charHeight + GameConstants.charMargin) * 1 },
-                y: self.position.y)
-        }
-        
-        if GameFunctions.newPositionIsOnScreen(self.position.x, oldY: self.position.y, newX: newX, newY: newY, frame: self.frame) {
-            self.position.x = newX
-            self.position.y = newY
-        }
-    }
-    
-    func moveL() {
-        var newX:CGFloat, newY:CGFloat
-        
-        if doMoveRight() {
-            newX = addToXPosition(
-                {(x:CGFloat) -> CGFloat in return x + (GameConstants.charWidth + GameConstants.charMargin) * 3 },
-                x: self.position.x)
-        } else {
-            newX = addToXPosition(
-                {(x:CGFloat) -> CGFloat in return x - (GameConstants.charWidth + GameConstants.charMargin) * 3 },
-                x: self.position.x)
-        }
-        
-        if doMoveUp() {
-            newY = addToYPosition(
-                {(y:CGFloat) -> CGFloat in return y + (GameConstants.charHeight + GameConstants.charMargin) * 1 },
-                y: self.position.y)
-        } else {
-            newY = addToYPosition(
-                {(y:CGFloat) -> CGFloat in return y - (GameConstants.charHeight + GameConstants.charMargin) * 1 },
-                y: self.position.y)
-        }
-        
-        if GameFunctions.newPositionIsOnScreen(self.position.x, oldY: self.position.y, newX: newX, newY: newY, frame: self.frame) {
-            self.position.x = newX
-            self.position.y = newY
-        }
-    }
-    
-    func moveQ() {
-        var newX:CGFloat, newY:CGFloat
-        
-        if doMoveRight() {
-            newX = addToXPosition(
-                {(x:CGFloat) -> CGFloat in return x + (GameConstants.charWidth + GameConstants.charMargin) * 2 },
-                x: self.position.x)
-        } else {
-            newX = addToXPosition(
-                {(x:CGFloat) -> CGFloat in return x - (GameConstants.charWidth + GameConstants.charMargin) * 2 },
-                x: self.position.x)
-        }
-        
-        if doMoveUp() {
-            newY = addToYPosition(
-                {(y:CGFloat) -> CGFloat in return y + (GameConstants.charHeight + GameConstants.charMargin) * 2 },
-                y: self.position.y)
-        } else {
-            newY = addToYPosition(
-                {(y:CGFloat) -> CGFloat in return y - (GameConstants.charHeight + GameConstants.charMargin) * 2 },
-                y: self.position.y)
-        }
-        
-        if GameFunctions.newPositionIsOnScreen(self.position.x, oldY: self.position.y, newX: newX, newY: newY, frame: self.frame) {
-            self.position.x = newX
-            self.position.y = newY
-        }
     }
 }

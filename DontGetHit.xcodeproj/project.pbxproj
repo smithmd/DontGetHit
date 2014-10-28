@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		920C4A4B19FFDCBB0069F1A5 /* L.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920C4A4A19FFDCBB0069F1A5 /* L.swift */; };
+		920C4A4D19FFDCC60069F1A5 /* Q.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920C4A4C19FFDCC60069F1A5 /* Q.swift */; };
+		920C4A4F19FFDCCC0069F1A5 /* Slash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920C4A4E19FFDCCC0069F1A5 /* Slash.swift */; };
 		922587DC19FA9EC600153EEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922587DB19FA9EC600153EEA /* AppDelegate.swift */; };
 		922587DE19FA9EC600153EEA /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922587DD19FA9EC600153EEA /* GameScene.swift */; };
 		922587E019FA9EC600153EEA /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 922587DF19FA9EC600153EEA /* GameScene.sks */; };
@@ -28,6 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		920C4A4A19FFDCBB0069F1A5 /* L.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L.swift; sourceTree = "<group>"; };
+		920C4A4C19FFDCC60069F1A5 /* Q.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Q.swift; sourceTree = "<group>"; };
+		920C4A4E19FFDCCC0069F1A5 /* Slash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Slash.swift; sourceTree = "<group>"; };
 		922587D619FA9EC600153EEA /* DontGetHit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DontGetHit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		922587DA19FA9EC600153EEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		922587DB19FA9EC600153EEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +66,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		920C4A4919FFDCAF0069F1A5 /* Monsters */ = {
+			isa = PBXGroup;
+			children = (
+				920C4A4A19FFDCBB0069F1A5 /* L.swift */,
+				920C4A4C19FFDCC60069F1A5 /* Q.swift */,
+				920C4A4E19FFDCCC0069F1A5 /* Slash.swift */,
+			);
+			name = Monsters;
+			sourceTree = "<group>";
+		};
 		922587CD19FA9EC600153EEA = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +97,7 @@
 		922587D819FA9EC600153EEA /* DontGetHit */ = {
 			isa = PBXGroup;
 			children = (
+				920C4A4919FFDCAF0069F1A5 /* Monsters */,
 				922587DB19FA9EC600153EEA /* AppDelegate.swift */,
 				922587DD19FA9EC600153EEA /* GameScene.swift */,
 				922587FA19FAE85F00153EEA /* Monster.swift */,
@@ -220,7 +237,10 @@
 			files = (
 				922587DE19FA9EC600153EEA /* GameScene.swift in Sources */,
 				92ECCC7919FE9671005F8C3E /* GameControl.swift in Sources */,
+				920C4A4B19FFDCBB0069F1A5 /* L.swift in Sources */,
+				920C4A4D19FFDCC60069F1A5 /* Q.swift in Sources */,
 				922587FB19FAE85F00153EEA /* Monster.swift in Sources */,
+				920C4A4F19FFDCCC0069F1A5 /* Slash.swift in Sources */,
 				922587DC19FA9EC600153EEA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
