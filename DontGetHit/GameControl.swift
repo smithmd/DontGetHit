@@ -87,10 +87,10 @@ struct GameFunctions {
             newY > GameFunctions.getClosestYToBottomEdge(CGRectGetMinY(frame), midY: CGRectGetMidY(frame)) &&
             newY < GameFunctions.getClosestYToTopEdge(CGRectGetMaxX(frame), midY: CGRectGetMidY(frame)) {
                 
-                println("(\(oldX), \(oldY)), (\(newX), \(newY))")
+                print("(\(oldX), \(oldY)), (\(newX), \(newY))")
                 return true
         } else {
-            println("didn't move: (\(oldX), \(oldY))")
+            print("didn't move: (\(oldX), \(oldY))")
             return false
         }
     }

@@ -16,17 +16,17 @@ class L: Monster {
         super.init(frame: frame)
         precedence = 2
         label = "L"
-        println("Spawned new \(super.label) at (\(self.position.x), \(self.position.y))")
+        print("Spawned new \(super.label) at (\(self.position.x), \(self.position.y))")
     }
     
     override func changePosition(playerPosition:CGPoint) {
         player = playerPosition
-        print("Move L: ")
+        print("Move L: ", terminator: "")
         move()
     }
     
     override func doMoveRight() -> Bool {
-        var chance = arc4random_uniform(100)
+        let chance = arc4random_uniform(100)
         
         if self.position.x > player.x {
             // right of player
@@ -48,7 +48,7 @@ class L: Monster {
     }
     
     override func doMoveUp() -> Bool {
-        var chance = arc4random_uniform(100)
+        let chance = arc4random_uniform(100)
         
         if self.position.y > player.y {
             // above player

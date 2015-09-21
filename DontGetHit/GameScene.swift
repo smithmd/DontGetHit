@@ -32,17 +32,18 @@ class GameScene: SKScene {
         _charLabel.fontSize = GameConstants.charHeight;
         _charLabel.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
         _charLabel.text = "@"
+        _charLabel.alpha = 0.5
         _charLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         _charLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
         self.addChild(_charLabel)
     }
     
     override func keyDown(theEvent: NSEvent) {
-        if !_lblGameTitle.hidden {
-            _lblGameTitle.hidden = true
-        }
-       
         if !gameOver {
+            if !_lblGameTitle.hidden {
+                _lblGameTitle.hidden = true
+            }
+            
             switch Int(theEvent.keyCode) {
             case 49:
                 //space
@@ -72,9 +73,6 @@ class GameScene: SKScene {
                 // _lblGameTitle.text = "keycode = \(theEvent.keyCode)"
                 break
             }
-        } else {
-            _lblGameTitle.text = "You Got Hit! Your score was \(scoreCounter)"
-            _lblGameTitle.hidden = false
         }
     }
     
@@ -92,7 +90,7 @@ class GameScene: SKScene {
         
         let lbl:SKLabelNode = SKLabelNode(fontNamed: "Courier")
         lbl.fontSize = GameConstants.charHeight
-        lbl.text = monster.label
+        lbl.text = monster.label as String
         lbl.position = monster.position
         lbl.fontColor = NSColor(
             red: GameFunctions.getRandomCGFloat(),
@@ -105,7 +103,7 @@ class GameScene: SKScene {
         
         _monsterLabelArray.append(lbl)
         _lblGameTitle.text = "\(lbl.text) @ \(lbl.position)"
-        println()
+        print("")
     }
     
     func getRandomMonster() -> Monster {
@@ -121,7 +119,7 @@ class GameScene: SKScene {
     }
     
     func moveMonsters() {
-        for (index:Int, m:Monster) in enumerate(_monsterArray) {
+        for (index, m): (Int, Monster) in _monsterArray.enumerate() {
             m.changePosition(_charLabel.position)
             _monsterLabelArray[index].position = m.position
         }
@@ -129,33 +127,41 @@ class GameScene: SKScene {
     
     func checkForCollisions() {
         
-        for (i:Int, m:Monster) in enumerate(_monsterArray) {
+        for (i, m): (Int, Monster) in _monsterArray.enumerate() {
+            print("@:\(_charLabel.position) \(m.label):\(m.position)")
+            if (_charLabel.position == m.position) {
+                print("********")
+            }
             if _charLabel.position == m.position {
                 gameOver = true
+                _lblGameTitle.text = "You Got Hit! Your score was \(scoreCounter)"
+                _lblGameTitle.hidden = false
             }
-            for (j:Int, n:Monster) in enumerate(_monsterArray) {
+            for (j, n): (Int, Monster) in _monsterArray.enumerate() {
                 // check to make sure monsters are different objects
                 if m.uuid.UUIDString != n.uuid.UUIDString
                     && m.position == n.position
                 {
                     if m.precedence > n.precedence {
-                        println("\tMonsters collide… Removing a \(n.label)")
+                        print("\tMonsters collide… Removing a \(n.label)")
                         _monsterArray.removeAtIndex(j)
                     } else {
-                        println("\tMonsters collide… Removing a \(m.label)")
+                        print("\tMonsters collide… Removing a \(m.label)")
                         _monsterArray.removeAtIndex(i)
                         break
                     }
                 }
+//                println("i: \(i) j: \(j)")
             }
         }
-        println("\tMonsters remaining: \(_monsterArray.count)")
+        print("\tMonsters remaining: \(_monsterArray.count)\n")
     }
     func incrementScore() {
         if !gameOver {
             ++scoreCounter
         } else {
-            println("** Score: \(scoreCounter)");
+            print("\tGame Over")
+            print("** Score: \(scoreCounter) **");
         }
     }
     

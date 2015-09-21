@@ -15,13 +15,13 @@ class Slash: Monster {
         super.init(frame: frame)
         label = "\\"
         precedence = 1
-        println("Spawned new \(super.label) at (\(self.position.x), \(self.position.y))")
+        print("Spawned new \(super.label) at (\(self.position.x), \(self.position.y))")
     }
     
     override func changePosition(playerPosition:CGPoint) {
         player = playerPosition
         
-        print("Move \\: ")
+        print("Move \\: ", terminator: "")
         move()
     }
     
@@ -48,7 +48,7 @@ class Slash: Monster {
     }
     
     override func doMoveUp() -> Bool {
-        var chance = arc4random_uniform(100)
+        let chance = arc4random_uniform(100)
         
         if self.position.y > player.y {
             // above player
